@@ -9,29 +9,45 @@
 */
 
 
-
-
 #include<iostream>
 #include<vector>
 #include<algorithm>
+#include<cstdlib>
+#include<ctime>
 
 using namespace std;
 
+void makeVector(vector<int> &numbers, int size)
+{
+    int random = rand() % (size);
 
+    for (int i = 1; i < size; i++)
+    {
+        while (find(numbers.begin(), numbers.end(), random) != numbers.end()) {
+            random = rand() % (size * 100);
+        }
+            
+        numbers.push_back(random);
+    }
+    
+} 
 
+void printVector(vector<int>& numbers) {
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << "vec[" << i << "]= " << numbers[i] << endl;
+    }
+}
 class Node {
 public:
     int data;
     Node* next;
 
-    // Default constructor
     Node()
     {
         data = 0;
         next = NULL;
     }
 
-    // Parameterised Constructor
     Node(int data)
     {
         this->data = data;
@@ -39,31 +55,33 @@ public:
     }
 };
 
-// Linked list class to
-// implement a linked list.
+
 class Linkedlist {
     Node* head;
 
 public:
-    // Default constructor
+
     Linkedlist() { head = NULL; }
 
-    // Function to insert a
-    // node at the end of the
-    // linked list.
+
     void insertNode(int);
 
-    // Function to print the
-    // linked list.
+   
     void printList();
 
-    // Function to delete the
-    // node at given position
     void deleteNode(int);
+
+
+    void searchNode(int);
+
+
+    void searchList(vector<int>);
+
+
+    ~Linkedlist();
 };
 
-// Function to delete the
-// node at given position
+
 void Linkedlist::deleteNode(int nodeOffset)
 {
     Node* temp1 = head, * temp2 = NULL;
@@ -119,13 +137,30 @@ void Linkedlist::deleteNode(int nodeOffset)
     // Delete the node
     delete temp1;
 }
-Linkedlist list;
-// Function to insert a new node.
+
+Linkedlist::~Linkedlist() {
+
+    if (head == NULL) {
+        //cout << "List empty." << endl;
+        return;
+    }
+    
+    do {
+        Node* temp = head;
+        head = temp->next;
+        cout << "deleting " << temp->data << endl;
+        delete temp;
+    } while (head != NULL);
+    
+
+}
+
+
 void Linkedlist::insertNode(int data)
 {
     // Create the new Node.
     Node* newNode = new Node(data);
-    cout << "inserting " << data << endl;
+    //cout << "inserting " << data << endl;
     // Assign to head
     if (head == NULL) {
         head = newNode;
@@ -137,31 +172,52 @@ void Linkedlist::insertNode(int data)
     Node* temp2 = temp->next;
     while (temp->next != NULL) {
         temp2 = temp->next;
-        cout << "temp->value: " << temp->data << endl;
-        cout << "temp2->value: " << temp2->data << endl;
-        cout << "element to add: " << data << endl;
-        cout << "-------------------" << endl;
+       
         if (temp2->data > data)
         {
             newNode->next = temp2;
             temp->next = newNode;
-            list.printList();
-            cout << endl;
+           
             return;
         }
 
         // Update temp
         temp = temp->next;
-        list.printList();
-        cout << endl;
+        
     }
 
     // Insert at the last.
     temp->next = newNode;
 }
 
-// Function to print the
-// nodes of the linked list.
+void Linkedlist::searchList(vector<int> num) {
+    for (int i = 0; i < num.size(); i++)
+    {
+        this->searchNode(num[i]);
+    }
+}
+
+void Linkedlist::searchNode(int searched) {
+    Node* temp = head;
+
+    while (temp != NULL) {
+        if (temp->data == searched) {
+            cout << "znalazlem " << searched << endl;
+            return;
+        }
+        if (temp->data > searched) {
+            cout << "nie znalazlem " << searched <<" dotarlem do "<<temp->data << endl;
+            return;
+        }
+        temp = temp->next;
+       
+       
+        
+    }
+    cout << "nie znalazlem" << endl;
+}
+
+
 void Linkedlist::printList()
 {
     Node* temp = head;
@@ -179,24 +235,45 @@ void Linkedlist::printList()
     }
 }
 
+
+
+void makeListFromVector(Linkedlist *list, vector<int> num) {
+    for (int i = 0; i < num.size(); i++)
+    {
+        list->insertNode(num[i]);
+    }
+}
+
+
+
 // Driver Code
 int main()
 {
-    
+    srand(time(NULL));
+    Linkedlist *list = new Linkedlist();
 
-    // Inserting nodes
-    list.insertNode(1);
-    list.insertNode(2);
-    list.insertNode(4);
-    list.insertNode(3);
-    
+ 
 
     cout << "Elements of the list are: ";
 
-    // Print the list
-    list.printList();
+  
+    vector <int> num;
+
+    makeVector(num, 10);
+    makeListFromVector(list, num);
+
+    cout << "print vector: " << endl;
+    printVector(num);
     cout << endl;
 
+    // Print the list
+    cout << "printing list: " << endl;
+    list->printList();
+    cout << endl;
+
+    list->searchList(num);
+
+    //delete list;
     /*
     // Delete node at position 2.
     list.deleteNode(2);
