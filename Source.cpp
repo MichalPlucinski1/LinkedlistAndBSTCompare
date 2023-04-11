@@ -17,7 +17,9 @@
 
 using namespace std;
 
-void makeVector(vector<int> &numbers, int size)
+// -------------------------- vector functions -----------------------\\
+
+void fillVector(vector<int> &numbers, int size)
 {
     int random = rand() % (size);
 
@@ -37,6 +39,9 @@ void printVector(vector<int>& numbers) {
         cout << "vec[" << i << "]= " << numbers[i] << endl;
     }
 }
+
+// -------------------------- Linked list class and methods -----------------------\\
+
 class Node {
 public:
     int data;
@@ -54,7 +59,6 @@ public:
         this->next = NULL;
     }
 };
-
 
 class Linkedlist {
     Node* head;
@@ -80,7 +84,6 @@ public:
 
     ~Linkedlist();
 };
-
 
 void Linkedlist::deleteNode(int nodeOffset)
 {
@@ -155,7 +158,6 @@ Linkedlist::~Linkedlist() {
 
 }
 
-
 void Linkedlist::insertNode(int data)
 {
     // Create the new Node.
@@ -197,16 +199,16 @@ void Linkedlist::searchList(vector<int> num) {
     }
 }
 
-void Linkedlist::searchNode(int searched) {
+void Linkedlist::searchNode(int s) {
     Node* temp = head;
 
     while (temp != NULL) {
-        if (temp->data == searched) {
-            cout << "znalazlem " << searched << endl;
+        if (temp->data == s) {
+            //cout << "znalazlem " << s << endl;
             return;
         }
-        if (temp->data > searched) {
-            cout << "nie znalazlem " << searched <<" dotarlem do "<<temp->data << endl;
+        if (temp->data > s) {
+            //cout << "nie znalazlem " << s <<" dotarlem do "<<temp->data << endl;
             return;
         }
         temp = temp->next;
@@ -216,7 +218,6 @@ void Linkedlist::searchNode(int searched) {
     }
     cout << "nie znalazlem" << endl;
 }
-
 
 void Linkedlist::printList()
 {
@@ -235,8 +236,6 @@ void Linkedlist::printList()
     }
 }
 
-
-
 void makeListFromVector(Linkedlist *list, vector<int> num) {
     for (int i = 0; i < num.size(); i++)
     {
@@ -245,11 +244,147 @@ void makeListFromVector(Linkedlist *list, vector<int> num) {
 }
 
 
+// -------------------------- BST class and methods -----------------------\\
+
+class BST {
+    int data;
+    BST* left, * right;
+
+public:
+    BST();
+
+    BST(int);
+
+    void destructor(BST*);
+
+    BST* insert(BST*, int);
+
+    void inOrder(BST*);
+
+    void searchElement(BST*, int);
+
+    void searchList(BST*,vector<int>);
+
+};
+
+BST::BST()
+    : data(0)
+    , left(NULL)
+    , right(NULL)
+{
+}
+
+BST::BST(int value)
+{
+    data = value;
+    left = right = NULL;
+}
+
+BST* BST::insert(BST* root, int value)
+{
+    if (!root) {
+        // Insert the first node, if root is NULL.
+        return new BST(value);
+    }
+
+    // Insert data.
+    if (value > root->data) {
+        root->right = insert(root->right, value);
+    }
+    else if (value < root->data) {
+        root->left = insert(root->left, value);
+    }
+
+    // Return 'root' node, after insertion.
+    return root;
+}
+
+// Inorder traversal function.
+// This gives data in sorted order.
+
+void BST::inOrder(BST* root)
+{
+    if (!root) {
+        return;
+    }
+    inOrder(root->left);
+    cout << root->data << endl;
+    inOrder(root->right);
+}
+
+void BST::searchElement(BST* root, int s) {
+    if (!root)
+        return;
+    if (root->data == s)
+    {
+        cout << "found " << s << endl;
+        return;
+    }
+    if (s < root->data) {
+        searchElement(root->left, s);
+    }
+    else if (s > root->data) { searchElement(root->right, s); }
+
+    return;
+
+}
+
+void BST::searchList(BST* b, vector<int> num){
+    for (int i = 0; i < num.size(); i++) {
+        b->searchElement(b, num[i]);
+    }
+}
+
+void BST::destructor(BST* root)
+{
+    BST* temp;
+    cout << "Im in destructor\n";
+    if (!this)
+    {
+        cout << "deleted" << endl;
+        return;
+    }
+    if (root->right)
+    {
+        destructor(root->right);
+        root->right = NULL;
+    }
+        
+    if (root->left)
+    {
+        destructor(root->left);
+        root->left = NULL;
+    }
+    if (!(root->left) && !(root->right))
+    {
+        cout << "deleting last node\n";
+        delete root;
+    }
+        
+}
+
+void makeBSTFromVector(BST& b, BST* root, vector<int>& num) {
+
+ 
+    //root = b.Insert(root, num[0]);
+   
+    
+    for (int i = 1; i < num.size(); i++) {
+        b.insert(root, num[i]);
+    }
+
+}
 
 // Driver Code
 int main()
 {
     srand(time(NULL));
+    vector <int> num;
+
+    fillVector(num, 11);
+
+
+    /*
     Linkedlist *list = new Linkedlist();
 
  
@@ -257,9 +392,7 @@ int main()
     cout << "Elements of the list are: ";
 
   
-    vector <int> num;
-
-    makeVector(num, 10);
+   
     makeListFromVector(list, num);
 
     cout << "print vector: " << endl;
@@ -273,14 +406,23 @@ int main()
 
     list->searchList(num);
 
-    //delete list;
-    /*
-    // Delete node at position 2.
-    list.deleteNode(2);
-
-    cout << "Elements of the list are: ";
-    list.printList();
-    cout << endl;
+    delete list;
     */
+    BST b, * root = NULL;
+    root = b.insert(root, num[0]);
+
+
+    makeBSTFromVector(b, root, num);
+
+
+    b.inOrder(root);
+
+    b.searchList(root,num);
+
+    b.destructor(root);
+
+    //b.inOrder(root);
+    
+
     return 0;
 }

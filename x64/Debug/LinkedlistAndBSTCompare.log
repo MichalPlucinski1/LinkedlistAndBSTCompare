@@ -1,3 +1,1 @@
-﻿  Source.cpp
-E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\Source.cpp(252,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  LinkedlistAndBSTCompare.vcxproj -> E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe
+﻿  LinkedlistAndBSTCompare.vcxproj -> E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe
