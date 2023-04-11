@@ -1,1 +1,5 @@
-﻿  LinkedlistAndBSTCompare.vcxproj -> E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe
+﻿  Source.cpp
+E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\Source.cpp(423,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\Source.cpp(425,20): warning C4101: 'end': unreferenced local variable
+E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\Source.cpp(425,13): warning C4101: 'start': unreferenced local variable
+  LinkedlistAndBSTCompare.vcxproj -> E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe

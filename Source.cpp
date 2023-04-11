@@ -2,10 +2,10 @@
 	plan
 
 	0. implement Linkedlist and BST (creating structures, searching, deleting)
-	1. create vector with unsorted, non-repetetive numbers (maybe using rand and find).
-	2. create 2nd vector in size of n elements from 1st vector and do operations on it. Then increase n.
-	3. add measuring time
-	4. dump times into txt, then make excel.
+	1. create vector with unsorted, non-repetetive numbers (maybe using rand and find). Make list and BST of it
+	2. add measuring time
+        2.1   need 3D vector[quantity, tree, BST]:  creating, searching and deleting
+	3. dump values longo txt, then make excel.
 */
 
 
@@ -14,19 +14,23 @@
 #include<algorithm>
 #include<cstdlib>
 #include<ctime>
+#include <chrono>
+#include <fstream>
 
 using namespace std;
+using namespace std::chrono;
+
 
 // -------------------------- vector functions -----------------------\\
 
-void fillVector(vector<int> &numbers, int size)
+void fillVector(vector<long> &numbers, long size)
 {
-    int random = rand() % (size);
+    long random = rand() % (size);
 
     for (int i = 1; i < size; i++)
     {
         while (find(numbers.begin(), numbers.end(), random) != numbers.end()) {
-            random = rand() % (size * 100);
+            random = rand() % (size * 10);
         }
             
         numbers.push_back(random);
@@ -34,8 +38,8 @@ void fillVector(vector<int> &numbers, int size)
     
 } 
 
-void printVector(vector<int>& numbers) {
-    for (int i = 0; i < numbers.size(); i++) {
+void prlongVector(vector<long>& numbers) {
+    for (long i = 0; i < numbers.size(); i++) {
         cout << "vec[" << i << "]= " << numbers[i] << endl;
     }
 }
@@ -44,7 +48,7 @@ void printVector(vector<int>& numbers) {
 
 class Node {
 public:
-    int data;
+    long data;
     Node* next;
 
     Node()
@@ -53,7 +57,7 @@ public:
         next = NULL;
     }
 
-    Node(int data)
+    Node(long data)
     {
         this->data = data;
         this->next = NULL;
@@ -68,27 +72,27 @@ public:
     Linkedlist() { head = NULL; }
 
 
-    void insertNode(int);
+    void insertNode(long);
 
    
-    void printList();
+    void prlongList();
 
-    void deleteNode(int);
-
-
-    void searchNode(int);
+    void deleteNode(long);
 
 
-    void searchList(vector<int>);
+    void searchNode(long);
+
+
+    void searchList(vector<long>);
 
 
     ~Linkedlist();
 };
 
-void Linkedlist::deleteNode(int nodeOffset)
+void Linkedlist::deleteNode(long nodeOffset)
 {
     Node* temp1 = head, * temp2 = NULL;
-    int ListLen = 0;
+    long ListLen = 0;
 
     if (head == NULL) {
         cout << "List empty." << endl;
@@ -133,7 +137,7 @@ void Linkedlist::deleteNode(int nodeOffset)
         temp1 = temp1->next;
     }
 
-    // Change the next pointer
+    // Change the next polonger
     // of the previous node.
     temp2->next = temp1->next;
 
@@ -151,14 +155,14 @@ Linkedlist::~Linkedlist() {
     do {
         Node* temp = head;
         head = temp->next;
-        cout << "deleting " << temp->data << endl;
+        // cout << "deleting " << temp->data << endl;
         delete temp;
     } while (head != NULL);
     
 
 }
 
-void Linkedlist::insertNode(int data)
+void Linkedlist::insertNode(long data)
 {
     // Create the new Node.
     Node* newNode = new Node(data);
@@ -192,14 +196,14 @@ void Linkedlist::insertNode(int data)
     temp->next = newNode;
 }
 
-void Linkedlist::searchList(vector<int> num) {
-    for (int i = 0; i < num.size(); i++)
+void Linkedlist::searchList(vector<long> num) {
+    for (long i = 0; i < num.size(); i++)
     {
         this->searchNode(num[i]);
     }
 }
 
-void Linkedlist::searchNode(int s) {
+void Linkedlist::searchNode(long s) {
     Node* temp = head;
 
     while (temp != NULL) {
@@ -219,7 +223,7 @@ void Linkedlist::searchNode(int s) {
     cout << "nie znalazlem" << endl;
 }
 
-void Linkedlist::printList()
+void Linkedlist::prlongList()
 {
     Node* temp = head;
 
@@ -236,8 +240,8 @@ void Linkedlist::printList()
     }
 }
 
-void makeListFromVector(Linkedlist *list, vector<int> num) {
-    for (int i = 0; i < num.size(); i++)
+void makeListFromVector(Linkedlist *list, vector<long> num) {
+    for (long i = 0; i < num.size(); i++)
     {
         list->insertNode(num[i]);
     }
@@ -247,23 +251,23 @@ void makeListFromVector(Linkedlist *list, vector<int> num) {
 // -------------------------- BST class and methods -----------------------\\
 
 class BST {
-    int data;
+    long data;
     BST* left, * right;
 
 public:
     BST();
 
-    BST(int);
+    BST(long);
 
     void destructor(BST*);
 
-    BST* insert(BST*, int);
+    BST* insert(BST*, long);
 
     void inOrder(BST*);
 
-    void searchElement(BST*, int);
+    void searchElement(BST*, long);
 
-    void searchList(BST*,vector<int>);
+    void searchList(BST*,vector<long>);
 
 };
 
@@ -274,13 +278,13 @@ BST::BST()
 {
 }
 
-BST::BST(int value)
+BST::BST(long value)
 {
     data = value;
     left = right = NULL;
 }
 
-BST* BST::insert(BST* root, int value)
+BST* BST::insert(BST* root, long value)
 {
     if (!root) {
         // Insert the first node, if root is NULL.
@@ -299,9 +303,6 @@ BST* BST::insert(BST* root, int value)
     return root;
 }
 
-// Inorder traversal function.
-// This gives data in sorted order.
-
 void BST::inOrder(BST* root)
 {
     if (!root) {
@@ -312,7 +313,7 @@ void BST::inOrder(BST* root)
     inOrder(root->right);
 }
 
-void BST::searchElement(BST* root, int s) {
+void BST::searchElement(BST* root, long s) {
     if (!root)
         return;
     if (root->data == s)
@@ -329,33 +330,32 @@ void BST::searchElement(BST* root, int s) {
 
 }
 
-void BST::searchList(BST* b, vector<int> num){
-    for (int i = 0; i < num.size(); i++) {
+void BST::searchList(BST* b, vector<long> num){
+    for (long i = 0; i < num.size(); i++) {
         b->searchElement(b, num[i]);
     }
 }
 
 void BST::destructor(BST* root)
 {
-    BST* temp;
     cout << "Im in destructor\n";
-    if (!this)
+    if (root == NULL)
     {
         cout << "deleted" << endl;
         return;
     }
-    if (root->right)
+    if (root->right != NULL)
     {
         destructor(root->right);
         root->right = NULL;
     }
         
-    if (root->left)
+    if (root->left != NULL)
     {
         destructor(root->left);
         root->left = NULL;
     }
-    if (!(root->left) && !(root->right))
+    if ((root->left == NULL) && !(root->right == NULL))
     {
         cout << "deleting last node\n";
         delete root;
@@ -363,27 +363,155 @@ void BST::destructor(BST* root)
         
 }
 
-void makeBSTFromVector(BST& b, BST* root, vector<int>& num) {
+void makeBSTFromVector(BST& b, BST* root, vector<long>& num) {
 
  
     //root = b.Insert(root, num[0]);
    
     
-    for (int i = 1; i < num.size(); i++) {
+    for (long i = 1; i < num.size(); i++) {
         b.insert(root, num[i]);
     }
 
 }
 
+void saveToTXT(vector<long> objects, vector<double>LC, vector<double>LS, vector<double>LD, vector<double>BC, vector<double>BS, vector<double>BD) {
+    fstream file;
+    file.open("data.txt");
+    if (file.good())
+    {
+        file << "num\tcreating list\tcreating BST\t search list\t search BST\t delete list\t delete BST\n";
+        for (int i = 0; i < objects.size(); i++)
+        {
+            file << i+1 << "\t" << objects[i] <<"\t" << LC[i] << "\t" << BC[i] << "\t" << LS[i] << "\t" << BS[i] << "\t" << LD[i] << "\t" << BD[i]<< "\n";
+        }
+        file.close();
+    }
+    else
+    {
+        file.close();
+        cout << "Not good file\n";
+        return;
+    }
+}
+
 // Driver Code
 int main()
 {
+    //settings
+    long numOfStartElements = 32000;
+    long numOfEndElements   = 32000;
+    long step = 1;
+
+    long numOfReps = (numOfEndElements - numOfStartElements) / step;
+    cout << "num of reps: " << numOfReps << endl;
+    //for time measure
+
+    vector<long> numberOfObjects;
+
+    vector<double> timesListCreation;
+    vector<double> timesBSTCreation;
+
+    vector<double> timesListSearching;
+    vector<double> timesBSTSearching;
+
+    vector<double> timesListDeleting;
+    vector<double> timesBSTDeleting;
+
+
+
     srand(time(NULL));
-    vector <int> num;
+    vector <long> num;
+    clock_t start, end;
+    double time_taken = 0;
 
-    fillVector(num, 11);
+    for (long i = 0; i <= numOfReps ; i++)
+    {
+        fillVector(num, numOfStartElements);
+        numberOfObjects.push_back(numOfStartElements);
+
+        //create list
+        
+        clock_t start, end;
+        start = clock();
+
+        Linkedlist* list = new Linkedlist();
+        makeListFromVector(list, num);
 
 
+        end = clock();
+        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+
+        timesListCreation.push_back(time_taken);
+
+        //search list
+
+        
+        start = clock();
+        list->searchList(num);
+        
+        end = clock();
+        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        
+        timesListSearching.push_back(time_taken);
+
+
+        //delete list
+        start = clock();
+        delete list;
+
+        end = clock();
+        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+
+        timesListDeleting.push_back(time_taken);
+
+        //create BST
+        start = clock();
+        BST b, * root = NULL;
+        makeBSTFromVector(b, root, num);
+
+        end = clock();
+        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+
+        timesBSTCreation.push_back(time_taken);
+
+        //search BST
+        start = clock();
+        
+        b.searchList(root,num);
+
+        end = clock();
+        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+
+        timesBSTSearching.push_back(time_taken);
+        
+        //delete BST
+        start = clock();
+
+        b.destructor(root);
+
+        end = clock();
+        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+
+        timesBSTDeleting.push_back(time_taken);
+
+
+        num.clear();
+        numOfStartElements += step;
+    }
+
+
+    cout << "i  obj creat: L BST search L BST" << endl;
+
+    for (int i = 0; i < numberOfObjects.size(); i++)
+    {
+        cout << i << " : " <<numberOfObjects[i] <<" - " << timesListCreation[i] << " / " << timesBSTCreation[i] << " - " << timesListSearching[i] << " / " <<  timesBSTSearching[i];
+        cout<< endl;
+    }
+    
+    saveToTXT(numberOfObjects, timesListCreation, timesListSearching, timesListDeleting, timesBSTCreation, timesBSTSearching, timesBSTDeleting);
+
+    
     /*
     Linkedlist *list = new Linkedlist();
 
@@ -393,21 +521,21 @@ int main()
 
   
    
-    makeListFromVector(list, num);
+    
 
-    cout << "print vector: " << endl;
-    printVector(num);
+    cout << "prlong vector: " << endl;
+    prlongVector(num);
     cout << endl;
 
-    // Print the list
-    cout << "printing list: " << endl;
-    list->printList();
+    // Prlong the list
+    cout << "prlonging list: " << endl;
+    list->prlongList();
     cout << endl;
 
     list->searchList(num);
 
     delete list;
-    */
+    
     BST b, * root = NULL;
     root = b.insert(root, num[0]);
 
@@ -420,7 +548,7 @@ int main()
     b.searchList(root,num);
 
     b.destructor(root);
-
+    */
     //b.inOrder(root);
     
 

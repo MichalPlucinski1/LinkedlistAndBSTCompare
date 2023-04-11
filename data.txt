@@ -1,0 +1,5 @@
+num	creating list	creating BST	 search list	 search BST	 delete list	 delete BST
+1	32000	2.493	0.004	0.793	0	0.002	0
+01
+01	0.127	0.001	0.339	0	0.001	0
+3	10002	0.117	0.001	0.334	0	0.001	0
