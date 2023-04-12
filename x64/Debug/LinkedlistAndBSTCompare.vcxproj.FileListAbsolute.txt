@@ -1,1 +1,2 @@
 E:\polibuda\S2\aisd\zad2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe
+D:\polibuda\2sem\aisd\zad2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe

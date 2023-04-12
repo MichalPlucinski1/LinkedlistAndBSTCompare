@@ -365,10 +365,7 @@ void BST::destructor(BST* root)
 
 void makeBSTFromVector(BST& b, BST* root, vector<long>& num) {
 
- 
-    //root = b.Insert(root, num[0]);
-   
-    
+    //root = b.Insert(root, num[0]);  
     for (long i = 1; i < num.size(); i++) {
         b.insert(root, num[i]);
     }
@@ -395,13 +392,33 @@ void saveToTXT(vector<long> objects, vector<double>LC, vector<double>LS, vector<
     }
 }
 
+void saveToTXT(vector<long> objects, vector<long>LC, vector<long>LS, vector<long>LD, vector<long>BC, vector<long>BS, vector<long>BD) {
+    fstream file;
+    file.open("data.txt");
+    if (file.good())
+    {
+        file << "num\tcreating list\tcreating BST\t search list\t search BST\t delete list\t delete BST\n";
+        for (int i = 0; i < objects.size(); i++)
+        {
+            file << i + 1 << "\t" << objects[i] << "\t" << LC[i] << "\t" << BC[i] << "\t" << LS[i] << "\t" << BS[i] << "\t" << LD[i] << "\t" << BD[i] << "\n";
+        }
+        file.close();
+    }
+    else
+    {
+        file.close();
+        cout << "Not good file\n";
+        return;
+    }
+}
+
 // Driver Code
 int main()
 {
     //settings
-    long numOfStartElements = 32000;
-    long numOfEndElements   = 32000;
-    long step = 1;
+    long numOfStartElements = 10000;
+    long numOfEndElements   = 25000;
+    long step = 1000;
 
     long numOfReps = (numOfEndElements - numOfStartElements) / step;
     cout << "num of reps: " << numOfReps << endl;
@@ -409,21 +426,21 @@ int main()
 
     vector<long> numberOfObjects;
 
-    vector<double> timesListCreation;
-    vector<double> timesBSTCreation;
+    vector<long> timesListCreation;
+    vector<long> timesBSTCreation;
 
-    vector<double> timesListSearching;
-    vector<double> timesBSTSearching;
+    vector<long> timesListSearching;
+    vector<long> timesBSTSearching;
 
-    vector<double> timesListDeleting;
-    vector<double> timesBSTDeleting;
+    vector<long> timesListDeleting;
+    vector<long> timesBSTDeleting;
 
 
 
     srand(time(NULL));
     vector <long> num;
     clock_t start, end;
-    double time_taken = 0;
+    long time_taken = 0;
 
     for (long i = 0; i <= numOfReps ; i++)
     {
@@ -431,67 +448,68 @@ int main()
         numberOfObjects.push_back(numOfStartElements);
 
         //create list
-        
-        clock_t start, end;
-        start = clock();
+        auto start = chrono::steady_clock::now();
+        //clock_t start, end;
+        //start = clock();
 
         Linkedlist* list = new Linkedlist();
         makeListFromVector(list, num);
 
+        auto end = chrono::steady_clock::now();
 
-        end = clock();
-        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-
+        //end = clock();
+        //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        time_taken = chrono::duration_cast<chrono::microseconds>(end - start).count();
         timesListCreation.push_back(time_taken);
 
         //search list
 
         
-        start = clock();
+        //start = clock();
         list->searchList(num);
         
-        end = clock();
-        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        //end = clock();
+        //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
         
         timesListSearching.push_back(time_taken);
 
 
         //delete list
-        start = clock();
+        //start = clock();
         delete list;
 
-        end = clock();
-        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        //end = clock();
+        //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
 
         timesListDeleting.push_back(time_taken);
 
         //create BST
-        start = clock();
+        //start = clock();
         BST b, * root = NULL;
         makeBSTFromVector(b, root, num);
 
-        end = clock();
-        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        //end = clock();
+        //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
 
         timesBSTCreation.push_back(time_taken);
 
         //search BST
-        start = clock();
+        //start = clock();
         
         b.searchList(root,num);
 
-        end = clock();
-        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        //end = clock();
+        //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
 
         timesBSTSearching.push_back(time_taken);
         
         //delete BST
-        start = clock();
+        //start = clock();
 
         b.destructor(root);
 
-        end = clock();
-        time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        //end = clock();
+        //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
 
         timesBSTDeleting.push_back(time_taken);
 
