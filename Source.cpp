@@ -16,6 +16,7 @@
 #include<ctime>
 #include <chrono>
 #include <fstream>
+#include <iomanip>      // std::setprecision
 
 using namespace std;
 using namespace std::chrono;
@@ -25,12 +26,12 @@ using namespace std::chrono;
 
 void fillVector(vector<long> &numbers, long size)
 {
-    long random = rand() % (size);
+    long random = rand() % (size) + 1;
 
     for (int i = 1; i < size; i++)
     {
         while (find(numbers.begin(), numbers.end(), random) != numbers.end()) {
-            random = rand() % (size * 10);
+            random = rand() % (size * 10) + 1;
         }
             
         numbers.push_back(random);
@@ -259,6 +260,8 @@ public:
 
     BST(long);
 
+    ~BST();
+
     void destructor(BST*);
 
     BST* insert(BST*, long);
@@ -318,7 +321,7 @@ void BST::searchElement(BST* root, long s) {
         return;
     if (root->data == s)
     {
-        cout << "found " << s << endl;
+        // cout << "found " << s << endl;
         return;
     }
     if (s < root->data) {
@@ -363,6 +366,15 @@ void BST::destructor(BST* root)
         
 }
 
+BST::~BST() {
+
+    if (right != NULL) {
+        delete this->right;
+    }
+    if (left != NULL) {
+        delete this->left;
+    }
+}
 void makeBSTFromVector(BST& b, BST* root, vector<long>& num) {
 
     //root = b.Insert(root, num[0]);  
@@ -397,7 +409,7 @@ void saveToTXT(vector<long> objects, vector<long>LC, vector<long>LS, vector<long
     file.open("data.txt");
     if (file.good())
     {
-        file << "num\tcreating list\tcreating BST\t search list\t search BST\t delete list\t delete BST\n";
+        file << "NR\tquantity\tcreating list\tcreating BST\t search list\t search BST\t delete list\t delete BST\n";
         for (int i = 0; i < objects.size(); i++)
         {
             file << i + 1 << "\t" << objects[i] << "\t" << LC[i] << "\t" << BC[i] << "\t" << LS[i] << "\t" << BS[i] << "\t" << LD[i] << "\t" << BD[i] << "\n";
@@ -416,7 +428,7 @@ void saveToTXT(vector<long> objects, vector<long>LC, vector<long>LS, vector<long
 int main()
 {
     //settings
-    long numOfStartElements = 10000;
+    long numOfStartElements = 5000;
     long numOfEndElements   = 25000;
     long step = 1000;
 
@@ -466,54 +478,64 @@ int main()
 
         
         //start = clock();
+        start = chrono::steady_clock::now();
         list->searchList(num);
-        
+        end = chrono::steady_clock::now();
         //end = clock();
         //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-        
+        time_taken = chrono::duration_cast<chrono::microseconds>(end - start).count();
         timesListSearching.push_back(time_taken);
 
 
         //delete list
         //start = clock();
+        start = chrono::steady_clock::now();
         delete list;
+        end = chrono::steady_clock::now();
 
         //end = clock();
         //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-
+        time_taken = chrono::duration_cast<chrono::microseconds>(end - start).count();
         timesListDeleting.push_back(time_taken);
-
+        // ------------ BST --------------
         //create BST
         //start = clock();
+        start = chrono::steady_clock::now();
         BST b, * root = NULL;
+        root = b.insert(root, num[0]);
         makeBSTFromVector(b, root, num);
+        end = chrono::steady_clock::now();
 
         //end = clock();
         //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-
+        time_taken = chrono::duration_cast<chrono::microseconds>(end - start).count();
         timesBSTCreation.push_back(time_taken);
 
         //search BST
         //start = clock();
+        start = chrono::steady_clock::now();
         
         b.searchList(root,num);
-
+        end = chrono::steady_clock::now();
         //end = clock();
         //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-
+        time_taken = chrono::duration_cast<chrono::microseconds>(end - start).count();
         timesBSTSearching.push_back(time_taken);
         
         //delete BST
+
         //start = clock();
+        start = chrono::steady_clock::now();
 
-        b.destructor(root);
-
+        //b.destructor(root);
+        delete root;
+        end = chrono::steady_clock::now();
         //end = clock();
         //time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-
+        time_taken = chrono::duration_cast<chrono::microseconds>(end - start).count();
         timesBSTDeleting.push_back(time_taken);
 
-
+        cout << i+1 << " done\n \n";
         num.clear();
         numOfStartElements += step;
     }
@@ -523,7 +545,7 @@ int main()
 
     for (int i = 0; i < numberOfObjects.size(); i++)
     {
-        cout << i << " : " <<numberOfObjects[i] <<" - " << timesListCreation[i] << " / " << timesBSTCreation[i] << " - " << timesListSearching[i] << " / " <<  timesBSTSearching[i];
+        cout << fixed << setprecision(8) << i << " : " << numberOfObjects[i] << " | " << timesListCreation[i] << " / " << timesBSTCreation[i] << " | " << timesListSearching[i] << " / " << timesBSTSearching[i] << " | " << timesListDeleting[i] << " / " << timesBSTDeleting[i];
         cout<< endl;
     }
     

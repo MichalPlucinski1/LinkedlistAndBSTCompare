@@ -1,5 +1,35 @@
 ﻿  Source.cpp
-D:\polibuda\2sem\aisd\zad2\LinkedlistAndBSTCompare\Source.cpp(420,15): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
-D:\polibuda\2sem\aisd\zad2\LinkedlistAndBSTCompare\Source.cpp(422,20): warning C4101: "end": lokalna zmienna, do której nie istnieje odwołanie
-D:\polibuda\2sem\aisd\zad2\LinkedlistAndBSTCompare\Source.cpp(422,13): warning C4101: "start": lokalna zmienna, do której nie istnieje odwołanie
-  LinkedlistAndBSTCompare.vcxproj -> D:\polibuda\2sem\aisd\zad2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(452,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(474,84): warning C4244: '=': conversion from '_Rep' to 'long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(486,84): warning C4244: '=': conversion from '_Rep' to 'long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(498,84): warning C4244: '=': conversion from '_Rep' to 'long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(511,84): warning C4244: '=': conversion from '_Rep' to 'long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(522,84): warning C4244: '=': conversion from '_Rep' to 'long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(535,84): warning C4244: '=': conversion from '_Rep' to 'long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(454,20): warning C4101: 'end': unreferenced local variable
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(454,13): warning C4101: 'start': unreferenced local variable
+  LinkedlistAndBSTCompare.vcxproj -> E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\x64\Debug\LinkedlistAndBSTCompare.exe
