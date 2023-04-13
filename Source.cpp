@@ -24,14 +24,14 @@ using namespace std::chrono;
 
 // -------------------------- vector functions -----------------------\\
 
-void fillVector(vector<long> &numbers, long size)
+void fillVector(vector<long> &numbers, long size, long max_size)
 {
-    long random = rand() % (size) + 1;
+    long random = rand() % (max_size) + 1;
 
-    for (int i = 1; i < size; i++)
+    for (int i = numbers.size(); i < size; i++)
     {
         while (find(numbers.begin(), numbers.end(), random) != numbers.end()) {
-            random = rand() % (size * 10) + 1;
+            random = rand() % (max_size * 3) + 1;
         }
             
         numbers.push_back(random);
@@ -428,12 +428,12 @@ void saveToTXT(vector<long> objects, vector<long>LC, vector<long>LS, vector<long
 int main()
 {
     //settings
-    long numOfStartElements = 5000;
-    long numOfEndElements   = 25000;
+    long numOfStartElements = 1000;
+    long numOfEndElements   = 20000;
     long step = 1000;
 
     long numOfReps = (numOfEndElements - numOfStartElements) / step;
-    cout << "num of reps: " << numOfReps << endl;
+    cout << "num of reps: " << numOfReps + 1 << endl;
     //for time measure
 
     vector<long> numberOfObjects;
@@ -456,7 +456,7 @@ int main()
 
     for (long i = 0; i <= numOfReps ; i++)
     {
-        fillVector(num, numOfStartElements);
+        fillVector(num, numOfStartElements, numOfEndElements);
         numberOfObjects.push_back(numOfStartElements);
 
         //create list
@@ -536,7 +536,7 @@ int main()
         timesBSTDeleting.push_back(time_taken);
 
         cout << i+1 << " done\n \n";
-        num.clear();
+        //num.clear();
         numOfStartElements += step;
     }
 

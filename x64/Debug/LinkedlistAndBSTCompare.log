@@ -1,4 +1,5 @@
 ﻿  Source.cpp
+E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(31,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(452,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 E:\polibuda\S2\aisd\zad2\listbst2\LinkedlistAndBSTCompare\Source.cpp(474,84): warning C4244: '=': conversion from '_Rep' to 'long', possible loss of data
           with
